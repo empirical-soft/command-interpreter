@@ -89,20 +89,20 @@ class CommandInterface {
     func_.clear();
     args_.clear();
 
-    std::string item;
+    std::string word;
     for (char c: text) {
-      if (c == ' ' || c == '\t') {
-        if (!item.empty()) {
-          args_.push_back(item);
-          item.clear();
+      if (std::isspace(c)) {
+        if (!word.empty()) {
+          args_.push_back(word);
+          word.clear();
         }
       }
       else {
-        item.push_back(c);
+        word.push_back(c);
       }
     }
-    if (!item.empty()) {
-      args_.push_back(item);
+    if (!word.empty()) {
+      args_.push_back(word);
     }
 
     if (!args_.empty()) {
@@ -110,7 +110,6 @@ class CommandInterface {
       args_.erase(args_.begin());
     }
   }
-
 
   // display user's commands
   std::string help() {
@@ -121,7 +120,7 @@ class CommandInterface {
     }
     longest += 2;
 
-    // record each func name padded with space, and then the help
+    // record each func name padded with space, and then the help text
     std::string str;
     for (auto& c: commands_) {
       str += c.name;
@@ -186,9 +185,14 @@ BOOST_PP_REPEAT(8, CALL_COMMAND, ~)
     parse(text);
     result_.clear();
     commands_.clear();
-    register_commands();
-    commands_.emplace_back("help",  "Show this help");
-    if (func_ == "help") result_ = help();
+
+    // the result will be overwritten if the command is recognized
+    if (!func_.empty()) {
+      result_ = "Unrecognized command: " + func_;
+      register_commands();
+      register_command(&CommandInterface::help, "help", "Show this help");
+    }
+
     return result_;
   }
 

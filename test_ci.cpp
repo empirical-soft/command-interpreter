@@ -40,7 +40,7 @@ void test(const std::string& text, const std::string& expected) {
 // bring it altogether
 int main() {
   test("inc 17", "18");
-  test("add 4 5", "9");
+  test("add 4 5\n", "9");
   test("twice 7", "14");
 
   test("inc", "Error: expected 1 argument; got 0");
