@@ -2,7 +2,7 @@
 
 This header-only library makes it easy to add command evaluation to a C++ program.
 
-```
+```cpp
 #include "command_interface.hpp"
 
 class Arithmetic : public CommandInterface {
@@ -10,13 +10,13 @@ class Arithmetic : public CommandInterface {
     return x + y;
   }
 
-  static int inc(int x) {
+  int inc(int x) {
     return x + 1;
   }
 
   void register_commands() override {
-    register_command(add, "Add two numbers");
-    register_command(inc, "Increment a number");
+    register_command(add, "add", "Add two numbers");
+    register_command(&Arithmetic::inc, "inc", "Increment a number");
   }
 };
 ```
@@ -25,7 +25,7 @@ A command is simply a function. Just register any function with a helper string;
 
 We can create a simple REPL with the above interface.
 
-```
+```cpp
 #include <iostream>
 
 int main() {
@@ -64,4 +64,4 @@ Error: invalid argument type at position 1; expected type i
 
 Command Interface was created for adding a way to query state in microservices, like getting the list of outstanding orders in a trading system.
 
-This library requires Boost's lexical cast and preprocessor macros. Also, the registered functions cannot be non-static member functions.
+This library requires Boost's lexical cast and preprocessor macros.
