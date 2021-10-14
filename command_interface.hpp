@@ -37,14 +37,14 @@
 #include <boost/preprocessor/punctuation/comma_if.hpp>
 
 // store the help string and attempt to invoke command
-#define register_command(func, help) \
-  commands_.emplace_back(#func, help); \
-  if (func_ == #func) result_ = call_command(func);
+#define register_command(func, name, help) \
+  commands_.emplace_back(name, help); \
+  if (func_ == name) result_ = call_command(func);
 
 /*
- * Functions must not be overloaded (ie., there can only be one function with
- * a particular name) and they cannot be non-static members (ie., the function
- * must either exist outside a class or be static).
+ * Make C++ functions available to an interpreter.
+ *
+ * Note that the functions cannot be templated or overloaded.
  */
 
 class CommandInterface {
@@ -161,6 +161,15 @@ class CommandInterface {
     } \
     BOOST_PP_REPEAT(n, CAST, ~) \
     return boost::lexical_cast<std::string>(func( BOOST_PP_REPEAT(n, REP_COMMA, x) )); \
+  } \
+  template<class R, class C BOOST_PP_REPEAT(n, REP, class T)> \
+  std::string call_command(R (C::*func)( BOOST_PP_REPEAT(n, REP_COMMA, T) )) { \
+    if (args_.size () != n) { \
+      return err_num_args(n, args_.size()); \
+    } \
+    BOOST_PP_REPEAT(n, CAST, ~) \
+    C* obj = (C*)(this); \
+    return boost::lexical_cast<std::string>((obj->*func)( BOOST_PP_REPEAT(n, REP_COMMA, x) )); \
   }
 
 BOOST_PP_REPEAT(8, CALL_COMMAND, ~)

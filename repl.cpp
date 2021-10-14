@@ -6,13 +6,13 @@ class Arithmetic : public CommandInterface {
     return x + y;
   }
 
-  static int inc(int x) {
+  int inc(int x) {
     return x + 1;
   }
 
   void register_commands() override {
-    register_command(add, "Add two numbers");
-    register_command(inc, "Increment a number");
+    register_command(add, "add", "Add two numbers");
+    register_command(&Arithmetic::inc, "inc", "Increment a number");
   }
 };
 
