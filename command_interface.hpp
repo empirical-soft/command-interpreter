@@ -144,9 +144,10 @@ class CommandInterface {
 #define REP_COMMA(z, n, text) BOOST_PP_COMMA_IF(n) text##n
 
 #define CAST(z, n, text) \
-    T##n x##n; \
+    typedef typename std::decay_t<T##n> TT##n; \
+    TT##n x##n; \
     try { \
-      x##n = boost::lexical_cast<T##n>(args_[n]); \
+      x##n = boost::lexical_cast<TT##n>(args_[n]); \
     } \
     catch (boost::bad_lexical_cast& err) { \
       return err_type_args(typeid(x##n).name(), n); \

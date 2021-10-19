@@ -17,11 +17,19 @@ class Arithmetic : public CommandInterface {
     return 2 * x;
   }
 
+  // example with a const ref
+  std::string rev(const std::string& s) {
+    std::string r(s);
+    std::reverse(r.begin(), r.end());
+    return r;
+  }
+
   // just need to register the commands with a help string
   void register_commands() override {
     register_command(add, "add", "Add two numbers");
     register_command(inc, "inc", "Increment a number");
     register_command(&Arithmetic::twice, "twice", "Double a number");
+    register_command(&Arithmetic::rev, "rev", "Reverse a string");
   }
 } arithmetic;
 
@@ -42,6 +50,7 @@ int main() {
   test("inc 17", "18");
   test("add 4 5\n", "9");
   test("twice 7", "14");
+  test("rev Hello", "olleH");
 
   test("inc", "Error: expected 1 argument; got 0");
   test("inc 1 7", "Error: expected 1 argument; got 2");
@@ -52,7 +61,7 @@ int main() {
   test("add 4.4 5", "Error: invalid argument type at position 0; expected type i");
   test("add 4 5.5", "Error: invalid argument type at position 1; expected type i");
 
-  test("help", "add    Add two numbers\ninc    Increment a number\ntwice  Double a number\nhelp   Show this help");
+  test("help", "add    Add two numbers\ninc    Increment a number\ntwice  Double a number\nrev    Reverse a string\nhelp   Show this help");
 
   return ret_val;
 }
