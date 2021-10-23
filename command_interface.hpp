@@ -36,6 +36,14 @@
 #include <boost/preprocessor/repetition/repeat.hpp>
 #include <boost/preprocessor/punctuation/comma_if.hpp>
 
+// pre-C++14 will get decay_t defined
+#if __cplusplus < 201300
+namespace std {
+  template<class T>
+  using decay_t = typename decay<T>::type;
+}
+#endif
+
 // store the help string and attempt to invoke command
 #define register_command(func, name, help) \
   commands_.emplace_back(name, help); \
