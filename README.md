@@ -64,4 +64,4 @@ Error: invalid argument type at position 1; expected type i
 
 Command Interface was created for adding a way to query state in microservices, like getting the list of outstanding orders in a trading system.
 
-This library requires Boost's lexical cast and preprocessor macros.
+**This library requires Boost's lexical cast and preprocessor macros.**
