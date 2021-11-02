@@ -55,7 +55,7 @@ namespace std {
  * Note that the functions cannot be templated or overloaded.
  */
 
-class CommandInterface {
+class CommandInterpreter {
  protected:
 
   // individual command info
@@ -199,7 +199,7 @@ BOOST_PP_REPEAT(8, CALL_COMMAND, ~)
     if (!func_.empty()) {
       result_ = "Unrecognized command: " + func_;
       register_commands();
-      register_command(&CommandInterface::help, "help", "Show this help");
+      register_command(&CommandInterpreter::help, "help", "Show this help");
     }
 
     return result_;

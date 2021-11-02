@@ -1,11 +1,11 @@
-### Command Interface
+### Command Interpreter
 
 This header-only library makes it easy to add command evaluation to a C++ program.
 
 ```cpp
-#include "command_interface.hpp"
+#include "command_interpreter.hpp"
 
-class Arithmetic : public CommandInterface {
+class Arithmetic : public CommandInterpreter {
   static int add(int x, int y) {
     return x + y;
   }
@@ -23,7 +23,7 @@ class Arithmetic : public CommandInterface {
 
 A command is simply a function. Just register any function with a helper string; type safety occurs automatically.
 
-We can create a simple REPL with the above interface.
+We can create a simple REPL with the above interpreter.
 
 ```cpp
 #include <iostream>
@@ -40,7 +40,7 @@ int main() {
 }
 ```
 
-And then we have a command-line interface.
+And then we have a command interpreter.
 
 ```
 >>> help
@@ -62,6 +62,6 @@ Error: invalid argument type at position 1; expected type i
 
 ```
 
-Command Interface was created for adding a way to query state in microservices, like getting the list of outstanding orders in a trading system.
+Command Interpreter was created for adding a way to query state in microservices, like getting the list of outstanding orders in a trading system.
 
 **This library requires Boost's lexical cast and preprocessor macros.**

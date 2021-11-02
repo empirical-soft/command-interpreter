@@ -1,12 +1,12 @@
 #include <iostream>
-#include "command_interface.hpp"
+#include "command_interpreter.hpp"
 
 // example of a non-member function
 int add(int x, int y) {
   return x + y;
 }
 
-class Arithmetic : public CommandInterface {
+class Arithmetic : public CommandInterpreter {
   // example of a static member function
   static int inc(int x) {
     return x + 1;

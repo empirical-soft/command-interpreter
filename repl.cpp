@@ -1,7 +1,7 @@
 #include <iostream>
-#include "command_interface.hpp"
+#include "command_interpreter.hpp"
 
-class Arithmetic : public CommandInterface {
+class Arithmetic : public CommandInterpreter {
   static int add(int x, int y) {
     return x + y;
   }
